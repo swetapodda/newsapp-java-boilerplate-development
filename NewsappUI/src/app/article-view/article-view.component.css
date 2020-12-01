@@ -1,0 +1,9 @@
+.example-card {
+    max-width: 350px;
+    margin:10px;
+  }
+  
+.example-header-image {
+    background-image: url('https://image.freepik.com/free-vector/books-stack-realistic_1284-4735.jpg');
+    background-size: cover;
+}

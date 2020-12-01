@@ -1,0 +1,54 @@
+<!-- Label to display any error messages -->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<app-header></app-header>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="fadeIn first">
+      <i class="fa fa-newspaper-o fa-5x" aria-hidden="true"></i><br>
+      <label class="error-message">{{ submitMessage }}</label>
+    </div>
+    <div class="registration-form">
+
+      <div div align="center">
+
+        <h5> Create New Account...</h5> <button mat-button (click)="loginUser()">
+          <h1>Login</h1>
+        </button>
+
+      </div>
+      <form class="registration-form" (ngSubmit)="registerUser()">
+        <mat-form-field>
+          <input matInput placeholder="FirstName" [formControl]="firstName" class="firstName">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="LastName" [formControl]="lastName" class="lastName">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Username" [formControl]="username" class="username">
+          <small *ngIf="username.invalid && (username.dirty || username.touched )">
+            *Username is a Mandotary Field
+          </small>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" [formControl]="password" class="password">
+          <small *ngIf="password.invalid && ( password.dirty || password.touched)">
+            <small *ngIf="password.errors.required">
+              Password is a Mandotary Field
+            </small>
+            <small *ngIf="password.errors.minlength">
+              Password must have minumum 6 Characters.
+            </small>
+          </small>
+        </mat-form-field>
+
+        <button mat-button>Register</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

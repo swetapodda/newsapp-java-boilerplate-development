@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+<nav class="navbar fixed-top navbar-light bg-primary">
+    <button style="color: pink;" mat-button [matMenuTriggerFor]="aboveMenu" (click)="openFavouritArticles()">Open
+        Favourite Articles</button>
+    <mat-menu #aboveMenu="matMenu" yPosition="above">
+    </mat-menu>
+    <button style="color: pink;" mat-button [matMenuTriggerFor]="belowMenu" (click)="openRecommandedArticles()">Open
+        Recommanded Articles</button>
+    <mat-menu #belowMenu="matMenu" yPosition="below">
+    </mat-menu>
+
+    <button style="color: pink;" mat-button [matMenuTriggerFor]="beforeMenu" (click)="logout()">Log Out</button>
+    <mat-menu #beforeMenu="matMenu" xPosition="before">
+    </mat-menu>
+</nav>
+<br>
+<br>
+<br>
+<div align="Center">
+  <div style="font-size: xx-large;color: red;">
+    Search By Title
+</div>
+    <mat-form-field class="example-form-field">
+        <mat-label>Enter News Title</mat-label>
+        <input matInput type="search" [(ngModel)]="searchText" placeholder="Enter News Title">
+    </mat-form-field>
+</div>
+<br>
+
+<mat-card appMaterialElevation [defaultElevation]="2" raisedElevation="16">
+    <div class="w3-container w3-lobster" align="center">
+        <div class="w3-xlarge" style="color: red;">****Article List****</div>
+    </div>
+</mat-card>
+<label class="error-message">{{ articlesErrMessage }}</label><br>
+<label class="error-message">{{ favouritesErrMessage }}</label><br>
+<label class="error-message">{{ recommandedErrMessage }}</label><br>
+<div class="news-note-container">
+    <div class="row">
+        <div class="mx-auto my-4" *ngFor="let art of articles | filter:searchText">
+            <mat-card appMaterialElevation [defaultElevation]="2" raisedElevation="16" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>
+                        <div class="max-lines-author">Author: {{art.author}}</div>
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        <div class="max-lines">Title: {{art.title}}</div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image width="300" height="200" src="{{art.urlToImage}}" alt="News Image">
+                <mat-card-content>
+                    <p> Description: {{art.description}}</p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button (click)="addToFavourate(art)">Add to Favourate</button>
+                    <button mat-button (click)="openArticle(art)">Open Article</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

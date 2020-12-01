@@ -1,0 +1,114 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+
+version: '3'
+services:
+  
+
+   eurekaServer:
+    image: eureka-server
+    build:
+      context: netflix-eureka-naming-server/
+    restart: always
+    #network_mode: host
+    ports:
+      - 8761:8761
+    healthcheck:
+      test: "exit 0"
+    environment:
+      HOST_NAME: 192.168.0.8 #This is in which Docer Server is running..
+   mysql:
+    image: mysql
+  #  container_name: MySql_DB_Server # To Avoid Auto Generated Name
+#    volumes:
+#      - ./mysql-dump:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: notesdb_06    
+   
+   rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"      
+      
+   userService:
+    image: userservice
+    build:
+      context: userservice/  
+    restart: always
+    #network_mode: host
+    depends_on:
+      - eurekaServer
+      - mysql
+    ports:
+      - 9300:9300
+    healthcheck:
+      test: "exit 0"  
+    environment:
+      HOST_NAME: 192.168.0.8 #This is in which Docer Server is running..
+    
+   favouriteService:
+    image: favouriteservice
+    build:
+      context: favouriteservice/
+    restart: always
+    #network_mode: host
+    depends_on:
+      - eurekaServer
+      - mongo
+      - rabbitmq
+    ports:
+      - 9400:9400
+    healthcheck:
+      test: "exit 0"      
+    environment:
+      HOST_NAME: 192.168.0.8 #This is in which Docer Server is running..
+    
+# Mongo DB Configuration
+   mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - 27017:27017
+
+   articleRecommendationService:
+    image: articlerecommendationservice
+    build:
+      context: articleRecommendationService/
+    restart: always
+    #network_mode: host
+    depends_on:
+      - eurekaServer
+      - mongo
+      - rabbitmq
+    ports:
+      - 9500:9500
+    healthcheck:
+      test: "exit 0"      
+    environment:
+      HOST_NAME: 192.168.0.8 #This is in which Docer Server is running..
+          
+   zuulApiGateway:
+    image: zuulapigateway
+    build:
+      context: netflix-zuul-api-gateway-server/
+    restart: always
+    #network_mode: host
+    depends_on:
+      - eurekaServer
+      - userService
+      - favouriteService
+      - articleRecommendationService
+    ports:
+      - 8079:8079
+    healthcheck:
+      test: "exit 0"      
+   
+   
+   newsappui:
+    image: newsappui
+    ports:
+      - "80:80" 

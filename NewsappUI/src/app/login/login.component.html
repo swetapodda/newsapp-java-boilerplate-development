@@ -1,0 +1,48 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<app-header></app-header>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+
+    <div class="fadeIn first">
+      <i class="fa fa-newspaper-o fa-5x" aria-hidden="true"></i><br>
+      <label class="error-message">{{ submitMessage }}</label>
+    </div>
+    <div class="login-form">
+      <div align="center">
+        <h1>
+          Login...</h1> <button mat-button (click)="registerUser()">Create New Account</button>
+
+      </div>
+
+      <form class="login-form" (ngSubmit)="loginSubmit()">
+        <mat-form-field>
+          <input matInput placeholder="Username" [formControl]="username" class="username">
+          <small *ngIf="username.invalid && (username.dirty || username.touched )">
+            *Username is a Mandotary Field
+          </small>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" [formControl]="password" class="password">
+          <small *ngIf="password.invalid && ( password.dirty || password.touched)">
+            <small *ngIf="password.errors.required">
+              Password is a Mandotary Field
+            </small>
+            <small *ngIf="password.errors.minlength">
+              Password must have minumum 6 Characters.
+            </small>
+          </small>
+        </mat-form-field>
+
+        <button mat-button>Submit</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+<nav class="navbar fixed-bottom navbar-light bg-light">
+  <app-footer></app-footer>
+</nav>
